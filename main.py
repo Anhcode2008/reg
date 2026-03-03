@@ -121,8 +121,11 @@ class reg_pro5():
 os.system("clear")
 print(banner)
 dem = 0
-ck = input ('\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> \033[1;32mNhập Cookie Acc Reg Pro5: \033[1;33m')  
-dl =input('\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> \033[1;32mNhập Delay Reg Pro5: \033[1;33m')
+with open("cookie.txt", "r", encoding="utf-8") as f:
+    cookies = [line.strip() for line in f if line.strip()]
+
+ck = random.choice(cookies)
+dl = 500
 print("\033[1;31m────────────────────────────────────────────────────────────")
 def delay(dl):
    t=datetime.now().strftime("%H:%M")
