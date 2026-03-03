@@ -118,29 +118,49 @@ class reg_pro5():
             return response.json()
         except:
                 return response.text
-os.system("clear")
-print(banner)
-dem = 0
-with open("cookie.txt", "r", encoding="utf-8") as f:
-    cookies = [line.strip() for line in f if line.strip()]
+os.system("cls" if os.name == "nt" else "clear")
 
+# Banner
+print(banner)
+
+dem = 0
+dau = "\033[1;31m[\033[1;37m=.=\033[1;31m]"
+
+# Load cookie từ file
+try:
+    with open("cookie.txt", "r", encoding="utf-8") as f:
+        cookies = [line.strip() for line in f if line.strip()]
+    if not cookies:
+        print("❌ cookie.txt rỗng")
+        exit()
+except FileNotFoundError:
+    print("❌ Không tìm thấy cookie.txt")
+    exit()
+
+# Random 1 cookie
 ck = random.choice(cookies)
+
+# Delay cố định
 dl = 500
+
 print("\033[1;31m────────────────────────────────────────────────────────────")
+
+# Hàm delay hiệu ứng màu
 def delay(dl):
-   t=datetime.now().strftime("%H:%M")
-   for ti in range(int(dl) , 0, -1):
-    print(dau,f'\033[1;31m🍉 Đang Delay Reg Pro5 🍉 > {ti} < Giây  ',end='\r')
-    sleep(0.200)
-    print(dau,f'\033[1;32m🍉 Đang Delay Reg Pro5 🍉 > {ti} < Giây  ',end='\r')
-    sleep(0.200)
-    print(dau,f'\033[1;33m🍉 Đang Delay Reg Pro5 🍉 > {ti} < Giây  ',end='\r')
-    sleep(0.200)
-    print(dau,f'\033[1;35m🍉 Đang Delay Reg Pro5 🍉 > {ti} < Giây  ',end='\r')
-    sleep(0.200)
-    print(dau,f'\033[1;36m🍉 Đang Delay Reg Pro5 🍉 > {ti} < Giây  ',end='\r')
-    sleep(0.200)
-cookies = (ck)#cookies acc cần reg (chỉ acc đang reg được pro5 mới dùng được):
+    for ti in range(int(dl), 0, -1):
+        for color in ["31", "32", "33", "35", "36"]:
+            print(
+                f"{dau} \033[1;{color}m🍉 Đang Delay Reg Pro5 🍉 > {ti} < Giây  \033[0m",
+                end="\r"
+            )
+            sleep(0.2)
+    print()  # xuống dòng sau khi delay xong
+
+# Ví dụ gọi delay
+delay(dl)
+
+# Cookie đang dùng
+cookie_dang_reg = ck
 while True:
     arrayho = ["Nguyễn", "Trần", "Lê", "Phạm", "Hoàng", "Huỳnh", "Võ", "Vũ", "Phan", "Trương", "Bùi", "Đặng", "Đỗ", "Ngô", "Hồ", "Dương", "Đinh"]
     arraylot = ["Công", "Đức", "Duy", "Gia", "Anh", "Hồng", "Đinh", "Quốc", "Quỳnh","Vĩnh"]
