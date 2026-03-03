@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for reg-mn1esa on 2026-03-03T22:31:27Z
+# fly.toml app configuration file generated for reg-jmftsa on 2026-03-03T22:58:17Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'reg-mn1esa'
+app = 'reg-jmftsa'
 primary_region = 'ams'
 
 [build]
