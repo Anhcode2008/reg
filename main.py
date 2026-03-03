@@ -1,3 +1,4 @@
+# ================= IMPORT =================
 import os
 import sys
 import time
@@ -5,12 +6,12 @@ import json
 import random
 import requests
 from time import sleep
-from datetime import datetime
 
-# ================= CLEAR + UI =================
+# ================= CLEAR =================
 os.system("cls" if os.name == "nt" else "clear")
 
-dau = "\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=>  "
+# ================= UI =================
+dau = "\033[1;31m[\033[1;37m=.=\033[1;31m] \033[1;37m=> "
 
 banner = """
 \033[1;34m╔═══════════╗
@@ -23,9 +24,9 @@ banner = """
 \033[1;36m║▇▇▇◣╲▇╱◢▇▇▇║
 \033[1;36m║▇▇▇▇◣▇◢▇▇▇▇║
 \033[1;34m╚═══════════╝
-\033[1;31m────────────────────────────────────────────────────────────
+\033[1;31m────────────────────────────────────────────
 \033[1;33mREG PAGE PRO5 | ADMIN: ANHCODE
-\033[1;31m────────────────────────────────────────────────────────────
+\033[1;31m────────────────────────────────────────────
 """
 print(banner)
 
@@ -41,46 +42,57 @@ except:
     sys.exit()
 
 # ================= DELAY =================
-dl = 500
+DL = 500
 
 def delay(t):
     for i in range(t, 0, -1):
-        for color in ["31", "32", "33", "35", "36"]:
-            print(
-                f"{dau}\033[1;{color}m🍉 Đang Delay Reg Pro5 🍉 > {i} < Giây\033[0m",
-                end="\r"
-            )
+        for c in ["31","32","33","35","36"]:
+            print(f"{dau}\033[1;{c}m🍉 Đang Delay Reg Pro5 🍉 > {i} < Giây\033[0m", end="\r")
             sleep(0.2)
     print()
 
-# ================= REG CLASS =================
+# ================= CLASS REG =================
 class reg_pro5:
     def __init__(self, cookie, name):
         self.cookie = cookie
         self.name = name
-        self.id_acc = cookie.split("c_user=")[1].split(";")[0]
+
+        # lấy uid
+        if "c_user=" not in cookie:
+            raise Exception("COOKIE_DIE")
+
+        self.uid = cookie.split("c_user=")[1].split(";")[0]
 
         headers = {
             "cookie": cookie,
             "user-agent": "Mozilla/5.0"
         }
 
-        url = requests.get("https://www.facebook.com/me", headers=headers).url
-        html = requests.get(url, headers=headers).text
+        r = requests.get("https://www.facebook.com/me", headers=headers, timeout=15)
+        html = r.text
 
-        try:
-            self.fb_dtsg = html.split('{"name":"fb_dtsg","value":"')[1].split('"')[0]
-        except:
-            self.fb_dtsg = html.split(',"f":"')[1].split('"')[0]
+        # lấy fb_dtsg an toàn
+        self.fb_dtsg = None
+        if "fb_dtsg" in html:
+            try:
+                self.fb_dtsg = html.split('{"name":"fb_dtsg","value":"')[1].split('"')[0]
+            except:
+                try:
+                    self.fb_dtsg = html.split(',"f":"')[1].split('"')[0]
+                except:
+                    pass
+
+        if not self.fb_dtsg:
+            raise Exception("COOKIE_DIE")
 
     def Reg(self):
         data = {
-            "av": self.id_acc,
+            "av": self.uid,
             "fb_dtsg": self.fb_dtsg,
             "variables": json.dumps({
                 "input": {
                     "name": self.name,
-                    "actor_id": self.id_acc
+                    "actor_id": self.uid
                 }
             }),
             "doc_id": "5903223909690825"
@@ -89,8 +101,10 @@ class reg_pro5:
         res = requests.post(
             "https://www.facebook.com/api/graphql/",
             headers={"cookie": self.cookie, "user-agent": "Mozilla/5.0"},
-            data=data
+            data=data,
+            timeout=15
         )
+
         try:
             return res.json()
         except:
@@ -99,14 +113,24 @@ class reg_pro5:
 # ================= MAIN LOOP =================
 dem = 0
 
-arrayho = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Võ","Vũ"]
-arraylot = ["Công","Đức","Gia","Anh","Quốc"]
-arrayten = ["Hưng","Tuấn","Hoàng","Phúc","Khang","Dương","Kiệt"]
+arrayho = ["Nguyễn","Trần","Lê","Phạm","Hoàng","Huỳnh","Võ","Vũ","Phan"]
+arraylot = ["Công","Đức","Gia","Anh","Quốc","Văn","Hữu"]
+arrayten = ["Hưng","Tuấn","Hoàng","Phúc","Khang","Dương","Kiệt","Vinh","An"]
 
 while True:
+    if not cookies:
+        print("❌ HẾT COOKIE – DỪNG TOOL")
+        break
+
     ck = random.choice(cookies)
     name = f"{random.choice(arrayho)} {random.choice(arraylot)} {random.choice(arrayten)}"
     dem += 1
 
-    print(dau, dem, reg_pro5(ck, name).Reg())
-    delay(dl)
+    try:
+        kq = reg_pro5(ck, name).Reg()
+        print(dau, dem, kq)
+    except Exception:
+        print(dau, dem, "❌ COOKIE DIE / BLOCK")
+        cookies.remove(ck)
+
+    delay(DL)
