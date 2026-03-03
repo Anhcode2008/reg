@@ -1,0 +1,53 @@
+{
+    "7903272808": {
+        "balance": 100000,
+        "total": 100000,
+        "last_recharge": 1000000000000,
+        "level": "vip",
+        "history": [
+            1
+        ]
+    },
+    "6545759448": {
+        "balance": 0,
+        "total": 0,
+        "last_recharge": 0,
+        "level": "none",
+        "history": []
+    },
+    "8165461619": {
+        "balance": 0,
+        "total": 0,
+        "last_recharge": 0,
+        "level": "none",
+        "history": []
+    },
+    "6230732350": {
+        "balance": 0,
+        "total": 0,
+        "last_recharge": 0,
+        "level": "none",
+        "history": []
+    },
+    "7382870881": {
+        "balance": 0,
+        "total": 0,
+        "last_recharge": 0,
+        "level": "none",
+        "history": []
+    },
+    "5263703086": {
+        "balance": 0,
+        "total": 0,
+        "last_recharge": 0,
+        "level": "none",
+        "history": []
+    },
+    "6920752399": {
+        "balance": 0,
+        "total": 0,
+        "last_recharge": 0,
+        "level": "none",
+        "history": []
+    }
+}
